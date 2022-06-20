@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #04AA6D;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<h1>World GDP Data</h1>
+<p>Select the year for which GDP plot is required</p>
+
+<div class="slidecontainer">
+  <input type="range" min="1965" max="2015" value="1990" class="slider" id="myRange">
+</div>
+
+<form method="POST">
+    <label for="year">You have selected year : </label>
+    <input name="year" value="1990" readonly/>
+    <input type="submit"/>
+</form>
+
+<script>
+var yrsValue = '{{ inyear }}';
+var slider = document.getElementById("myRange");
+document.forms[0].elements["year"].value = yrsValue;
+
+slider.oninput = function() {
+  document.forms[0].elements["year"].value = this.value;
+}
+</script>
+<!-- Don't forget the "|safe"! -->
+{% if chart != None %}
+<div id="chart">
+   <embed type="image/svg+xml" src= {{ chart|safe }} />
+</div>
+{% endif %}
+</body>
+
+</html>
